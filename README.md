@@ -1,1 +1,1 @@
-# RL-Adaptive-Classifier
+# RL-based Adaptive Classifier
