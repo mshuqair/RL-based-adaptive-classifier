@@ -1,0 +1,9 @@
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Shuqair"
+  given-names: "Mustafa"
+  orcid: "https://orcid.org/0000-0002-9134-5447"
+title: "RL-based Adaptive Binary Classifier"
+version: 1.0
+date-released: 2023-01-18
+url: "https://github.com/mshuqair/RL-Adaptive-Classifier"
