@@ -1,1 +1,1 @@
-# RL-based Adaptive Classifier
+# Reinforcement Learning Adaptive Classifier
