@@ -4,6 +4,6 @@ Preliminary results of this project were published at the IEEE ICDM 2022 Confere
 
 Incremental Learning in Time-series Data using Reinforcement Learning: https://ieeexplore.ieee.org/abstract/document/10031160
 
-The complete work has been submitted and reviewed in the IEEE Transactions on Neural Networks and Learning Systems journal.
+An extensive extension of this work has been submitted and reviewed in the IEEE Journal of Biomedical and Health Informatics.
 
 More updates regarding the description are coming soon.
