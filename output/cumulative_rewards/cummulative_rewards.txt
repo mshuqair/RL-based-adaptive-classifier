@@ -1,1 +1,0 @@
-This folder is used by the model to save cumulative rewards of the agent after training

@@ -400,7 +400,7 @@ if save_model:
 if save_reward:
     df_cumulative_reward = pd.DataFrame({'episode': episode_number, 'epsilon': epsilon_value,
                                          'reward': cumulative_reward})
-    df_cumulative_reward.to_csv('output/cumulative_rewards/cumulative_reward_' + str(file_name) + '.csv', index=False)
+    df_cumulative_reward.to_csv('output/cumulative_reward_' + str(file_name) + '.csv', index=False)
 
 # Calculate and save the training time
 elapsed = format(time.time() - start, '.2f')

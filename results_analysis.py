@@ -18,17 +18,16 @@ with open('output/model_output.pkl', 'rb') as file:
 
 
 # Metrics
-model_accuracy = round(accuracy_score(y_true, y_predicted) * 100, 2)
+accuracy = accuracy_score(y_true, y_predicted)
 tn, fp, fn, tp = confusion_matrix(y_true, y_predicted).ravel()
-model_sensitivity = round(tp / (fn + tp) * 100, 2)
-model_specificity = round(tn / (fp + tn) * 100, 2)
-model_f1score = round(f1_score(y_true, y_predicted, average=f1_average) * 100, 2)
-model_auc = round(roc_auc_score(y_true, y_predicted) * 100, 2)
-print("Model prediction accuracy: " + str(model_accuracy) + "%")
-print("Model prediction sensitivity: " + str(model_sensitivity) + "%")
-print("Model prediction specificity: " + str(model_specificity) + "%")
-print("Model prediction F1 score: " + str(model_f1score) + "%")
-print("Model prediction AUC: " + str(model_auc) + "%")
+sensitivity = tp / (fn + tp)
+specificity = tn / (fp + tn)
+f1score = f1_score(y_true, y_predicted, average=f1_average)
+auc = roc_auc_score(y_true, y_predicted)
+print('Model metrics:')
+print('Accuracy %.2f, Sensitivity %.2f, Specificity %.2f, F1-score %.2f, AUC %.2f'
+      % (accuracy, sensitivity, specificity, f1score, auc))
+
 
 # Plot code
 d = np.arange(0, y_true.shape[0]) / 60
