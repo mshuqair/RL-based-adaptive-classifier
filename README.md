@@ -11,7 +11,7 @@ More updates regarding the description are coming soon. I will also update the c
 
 ## Deep Reinforcement Learning Adaptive Classification of PD Medication State
 ![](figures/figure_rl_structure.png)
-**Figure 1.** The main algorithm for estimating UPDRS-III scores.
+**Figure 1.** The proposed reinforcement learning-based adaptive classification framework.
 
 - Preliminary results of this project were published at the IEEE ICDM 2022 Conference.
 - Incremental Learning in Time-series Data using Reinforcement Learning: https://ieeexplore.ieee.org/abstract/document/10031160
