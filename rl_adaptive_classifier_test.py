@@ -1,10 +1,9 @@
 from skmultiflow.data.data_stream import DataStream
 from keras.models import load_model
 from sklearn.svm import OneClassSVM
-from sklearn.metrics import confusion_matrix, f1_score, accuracy_score, roc_auc_score
-import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import pickle
 
 
 # Classes for each anomaly detector
@@ -344,61 +343,13 @@ while stream.has_more_samples():
         buffer_c1_c2.add_instance(X)
         i = i + 1
 
-# Model metrics
-model_accuracy = round(accuracy_score(stream.y, model_output) * 100, 2)
-tn, fp, fn, tp = confusion_matrix(stream.y, model_output).ravel()
-model_sensitivity = round(tp / (fn + tp) * 100, 2)
-model_specificity = round(tn / (fp + tn) * 100, 2)
-model_f1score = round(f1_score(stream.y, model_output, average=f1_average) * 100, 2)
-model_auc = round(roc_auc_score(stream.y, model_output) * 100, 2)
-print("Model prediction accuracy: " + str(model_accuracy) + "%")
-print("Model prediction sensitivity: " + str(model_sensitivity) + "%")
-print("Model prediction specificity: " + str(model_specificity) + "%")
-print("Model prediction F1 score: " + str(model_f1score) + "%")
-print("Model prediction AUC: " + str(model_auc) + "%")
 
-# Plot code
-if display_plots:
-    plt.figure()
-    plt.title('Original data')
-    plt.xlabel("Minutes", fontsize=font_size)
-    plt.xticks(fontsize=font_size)
-    plt.ylabel("Class label", fontsize=font_size)
-    d = np.arange(0, len(df)) / 60
-    plt.plot(d, stream.y, c='g')
-    plt.show()
-
-    plt.title('Predicted class transitions')
-    plt.xlabel("Minutes", fontsize=font_size)
-    plt.xticks(fontsize=font_size)
-    plt.ylabel("Class label", fontsize=font_size)
-    plt.yticks(np.array([1, 2]), ["1", "2"], fontsize=font_size)
-    d = np.arange(0, len(df)) / 60
-    plt.plot(d, stream.y, c='g')
-    plt.scatter(np.array(outliers_transitions_index[:]) / 60, outliers_transitions[:], c='r', marker='o')
-    plt.legend(("Class label", "Predicted transitions"), loc='center right', fontsize=font_size)
-    plt.show()
-
-    plt.title('Model Prediction for Subject: ')
-    plt.xlabel("Minutes", fontsize=font_size)
-    plt.xticks(fontsize=font_size)
-    plt.ylabel("Class Label", fontsize=font_size)
-    plt.yticks(np.array([1, 2]), ["1", "2"], fontsize=font_size)
-    plt.plot(d, model_output)
-    plt.show()
-
-    plt.title('Anomaly scores')
-    plt.xlabel("Minutes", fontsize=font_size)
-    plt.xticks(fontsize=font_size)
-    plt.ylabel("Outliers percentage", fontsize=font_size)
-    plt.ylim(0, 1.1)
-    plt.yticks(fontsize=font_size)
-    plt.plot(np.array(outliers_percent_index[:]) / 60, outliers_percent_general, linestyle='dotted')
-    plt.plot(np.array(outliers_percent_index[:]) / 60, outliers_percent_c1, linestyle='dotted')
-    plt.plot(np.array(outliers_percent_index[:]) / 60, outliers_percent_c2, linestyle='dotted')
-    for k in range(np.size(outliers_transitions_index)):
-        plt.axvline(outliers_transitions_index[k] / 60, color='grey', linestyle='--', linewidth=1)
-    plt.scatter(np.array(outliers_percent_index[:]) / 60, outliers_percent_general, marker='o')
-    plt.scatter(np.array(outliers_percent_index[:]) / 60, outliers_percent_c1, marker='o')
-    plt.scatter(np.array(outliers_percent_index[:]) / 60, outliers_percent_c2, marker='o')
-    plt.show()
+# Save model output
+y_true = stream.y
+y_predicted = model_output
+model_output = [y_true, y_predicted,
+                outliers_transitions_index, outliers_transitions,
+                outliers_percent_index, outliers_percent_general,
+                outliers_percent_c1, outliers_percent_c2]
+with open('output/model_output.pkl', 'wb') as file:
+    pickle.dump(model_output, file)
