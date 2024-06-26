@@ -1,7 +1,6 @@
 from skmultiflow.data.data_stream import DataStream
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
-import matplotlib.pyplot as plt
 from sklearn.svm import OneClassSVM
 import pandas as pd
 import numpy as np
@@ -37,7 +36,7 @@ class StreamBufferOriginal:
         self.window_index = self.window_index + 1
 
     def roll_window(self):
-        self.window_index = self.window_index - 1*self.slide
+        self.window_index = self.window_index - 1 * self.slide
 
     def transition_detected(self):
         self.transition_triggered = True
@@ -97,8 +96,8 @@ class StreamBufferC1C2:
         self.window_index = self.window_index + 1
 
     def roll_window(self):
-        self.win_data = np.roll(self.win_data, -1*self.slide, axis=0)
-        self.window_index = self.window_index - 1*self.slide
+        self.win_data = np.roll(self.win_data, -1 * self.slide, axis=0)
+        self.window_index = self.window_index - 1 * self.slide
 
     def score_check(self):
         if self.clf_c1_trained:
@@ -162,8 +161,8 @@ class StreamBufferGeneral:
         self.window_index = self.window_index + 1
 
     def roll_window(self):
-        self.win_data = np.roll(self.win_data, -1*self.slide, axis=0)
-        self.window_index = self.window_index - 1*self.slide
+        self.win_data = np.roll(self.win_data, -1 * self.slide, axis=0)
+        self.window_index = self.window_index - 1 * self.slide
 
     def score_check(self):
         self.win_outliers = self.clf.predict(self.win_data)
@@ -198,7 +197,7 @@ def get_slope(y1, y2):
     if state_update_counter == 1:
         slope = 0
     else:
-        slope = (y2-y1)/(state_update_interval-1)
+        slope = (y2 - y1) / (state_update_interval - 1)
     if slope == 0:
         slope = 0.001
     slope = round(slope, 4)
@@ -212,7 +211,7 @@ def get_state(temp_state):
     current_state = np.array([buffer_general.win_outliers_percent, periodic_slope,
                               buffer_c1_c2.win_outliers_clf_c1_percent, clf_c1_slope,
                               buffer_c1_c2.win_outliers_clf_c2_percent, clf_c2_slope])
-    temp_state[int(state_update_counter-1), :] = current_state
+    temp_state[int(state_update_counter - 1), :] = current_state
     return temp_state
 
 
@@ -260,9 +259,9 @@ def load_data():
 
 def find_true_transition(data):
     actual_change = np.array([], dtype='int')
-    for j in range(len(data)-1):
-        if data.iloc[j+1, -1] - data.iloc[j, -1] != 0:  # last column selected for class labels
-            actual_change = np.append(actual_change, j+1)
+    for j in range(len(data) - 1):
+        if data.iloc[j + 1, -1] - data.iloc[j, -1] != 0:  # last column selected for class labels
+            actual_change = np.append(actual_change, j + 1)
     return actual_change
 
 
@@ -272,41 +271,35 @@ def find_true_transition(data):
 df, true_transitions = load_data()
 print("Actual label changes at: " + str(true_transitions))
 
-
 # General parameters
-file_name = 'mhealth_s5'    # name used for saving model, plots, reward, etc...
-save_model = True   # to save the trained mode
-save_train_time = False # to save training time
-save_reward = False # to save the cumulative reward
+file_name = 'mhealth_s5'  # name used for saving model, plots, reward, etc...
+save_model = True  # to save the trained mode
+save_train_time = False  # to save training time
+save_reward = False  # to save the cumulative reward
 plot_reward = True  # to plot the cumulative reward
-start_negative = True   # when the starting class is 1
-
+start_negative = True  # when the starting class is 1
 
 # Data window parameters
 size = 40  # sliding window size (X_w)
 slide = 10  # sliding window step size
 
-
 # Anomaly detector parameters
-nu = 0.2            # nu value for the anomaly detector
-kernel = 'rbf'     # kernel function
-degree = 3          # degree of the poly function
-
+nu = 0.2  # nu value for the anomaly detector
+kernel = 'rbf'  # kernel function
+degree = 3  # degree of the poly function
 
 # RL model parameters
 state_update_interval = 4  # steps for the state to be updated before feeding it to agent (u)
-rewarding_window = 20   # rewarding window size (t_r)
-episodes = 1000     # number of episodes for training
-epsilon = 1.0       # epsilon value for the epsilon greedy algorithm
+rewarding_window = 20  # rewarding window size (t_r)
+episodes = 1000  # number of episodes for training
+epsilon = 1.0  # epsilon value for the epsilon greedy algorithm
 epsilon_min = 0.01  # the minimum epsilon value to reach
-epsilon_decay = 1/episodes  # decreasing epsilon value at each episode
-q_gamma = 0.5   # gamma value for the q-learning equation
-agent = build_agent()   # building the agent
-
+epsilon_decay = 1 / episodes  # decreasing epsilon value at each episode
+q_gamma = 0.5  # gamma value for the q-learning equation
+agent = build_agent()  # building the agent
 
 # General Anomaly detector parameters
 clf_general_update_interval = 4
-
 
 # Initializing some parameters
 state = np.zeros((state_update_interval, 6))
@@ -316,7 +309,6 @@ state_update_counter = 1
 cumulative_reward = np.zeros(episodes)
 epsilon_value = np.zeros(episodes)
 episode_number = np.zeros(episodes)
-
 
 start = time.time()
 
@@ -376,7 +368,7 @@ for episode in range(episodes):
                     maxQ = np.max(q_value)
                     y = np.zeros((1, 2))
                     y[:] = q_value[:]
-                    update = reward + (q_gamma*maxQ)
+                    update = reward + (q_gamma * maxQ)
                     y[0][action] = update
                     agent.fit(state.reshape(1, state_update_interval, 6), y, batch_size=1, epochs=1, verbose=0)
                     state[:, :] = 0.0
@@ -401,31 +393,20 @@ for episode in range(episodes):
     if epsilon > epsilon_min:
         epsilon = round(epsilon - epsilon_decay, 4)
 
-
-# Calculate and save the training time
-elapsed = format(time.time() - start, '.2f')
-text = ("Training time: " + str(round((time.time()-start)/60, 2)) + " minutes")
-print("\n" + text)
-if save_train_time:
-    file2write = open('training_time_' + str(file_name) + '.txt', 'w')
-    file2write.write(text)
-    file2write.close()
-
 if save_model:
     print("Saving the trained model...")
     agent.save('trained_models/model_trained_' + str(file_name) + '.h5')
-
 
 if save_reward:
     df_cumulative_reward = pd.DataFrame({'episode': episode_number, 'epsilon': epsilon_value,
                                          'reward': cumulative_reward})
     df_cumulative_reward.to_csv('cumulative_rewards/cumulative_reward_' + str(file_name) + '.csv', index=False)
 
-if plot_reward:
-    plt.figure()
-    plt.title("Cumulative reward")
-    plt.xlabel("Iteration")
-    plt.ylabel("Reward")
-    plt.plot(episode_number, cumulative_reward)
-    plt.show()
-    # plt.savefig('cumulative_reward_' + str(file_name) + '.png')
+# Calculate and save the training time
+elapsed = format(time.time() - start, '.2f')
+text = ("Training time: " + str(round((time.time() - start) / 60, 2)) + " minutes")
+print("\n" + text)
+if save_train_time:
+    file2write = open('training_time_' + str(file_name) + '.txt', 'w')
+    file2write.write(text)
+    file2write.close()

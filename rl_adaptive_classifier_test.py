@@ -35,7 +35,7 @@ class StreamBufferOriginal:
         self.window_index = self.window_index + 1
 
     def roll_window(self):
-        self.window_index = self.window_index - 1*self.slide
+        self.window_index = self.window_index - 1 * self.slide
 
     def transition_detected(self):
         self.transition_triggered = True
@@ -95,8 +95,8 @@ class StreamBufferC1C2:
         self.window_index = self.window_index + 1
 
     def roll_window(self):
-        self.win_data = np.roll(self.win_data, -1*self.slide, axis=0)
-        self.window_index = self.window_index - 1*self.slide
+        self.win_data = np.roll(self.win_data, -1 * self.slide, axis=0)
+        self.window_index = self.window_index - 1 * self.slide
 
     def score_check(self):
         if self.clf_c1_trained:
@@ -160,8 +160,8 @@ class StreamBufferGeneral:
         self.window_index = self.window_index + 1
 
     def roll_window(self):
-        self.win_data = np.roll(self.win_data, -1*self.slide, axis=0)
-        self.window_index = self.window_index - 1*self.slide
+        self.win_data = np.roll(self.win_data, -1 * self.slide, axis=0)
+        self.window_index = self.window_index - 1 * self.slide
 
     def score_check(self):
         self.win_outliers = self.clf.predict(self.win_data)
@@ -184,7 +184,7 @@ def get_slope(y1, y2):
     if state_update_counter == 1:
         slope = 0
     else:
-        slope = (y2-y1)/(state_update_interval-1)
+        slope = (y2 - y1) / (state_update_interval - 1)
     if slope == 0:
         slope = 0.001
     slope = round(slope, 4)
@@ -198,7 +198,7 @@ def get_state(temp_state):
     current_state = np.array([buffer_general.win_outliers_percent, periodic_slope,
                               buffer_c1_c2.win_outliers_clf_c1_percent, clf_c1_slope,
                               buffer_c1_c2.win_outliers_clf_c2_percent, clf_c2_slope])
-    temp_state[int(state_update_counter-1), :] = current_state
+    temp_state[int(state_update_counter - 1), :] = current_state
     return temp_state
 
 
@@ -224,45 +224,40 @@ def load_data():
 
 def find_true_transition(data):
     actual_change = np.array([], dtype='int')
-    for j in range(len(data)-1):
-        if data.iloc[j+1, -1] - data.iloc[j, -1] != 0:  # Last column selected
-            actual_change = np.append(actual_change, j+1)
+    for j in range(len(data) - 1):
+        if data.iloc[j + 1, -1] - data.iloc[j, -1] != 0:  # Last column selected
+            actual_change = np.append(actual_change, j + 1)
     return actual_change
 
 
 # Main Code
-
 # Load data
 df, true_transitions = load_data()
-print("Ground truth label changes at: " + str(true_transitions))
 
 # General parameters
 model_path = 'trained_models/model_trained_mhealth_s5.h5'
 file_name = 'mhealth_s5'
-start_negative = True   # when the starting class is 1
-display_plots = True    # to display resulting plots
-save_plots = False      # to save the plots
+start_negative = True  # when the starting class is 1
+display_plots = True  # to display resulting plots
+save_plots = False  # to save the plots
 font_size = 'xx-large'  # control the font size in the plots
-f1_average = 'weighted' # control the calculation of the f1 average
-
+f1_average = 'weighted'  # control the calculation of the f1 average
 
 # Data window parameters
 size = 40  # sliding window size (X_w)
 slide = 10  # sliding window step size
 
 # Anomaly detector parameters
-nu = 0.2            # nu value for the anomaly detector
-kernel = 'rbf'     # kernel function
-degree = 3          # degree of the poly function
+nu = 0.2  # nu value for the anomaly detector
+kernel = 'rbf'  # kernel function
+degree = 3  # degree of the poly function
 
 # RL model parameters
 state_update_interval = 4  # steps for the state to be updated before feeding it to agent (u)
-agent = load_model(model_path, compile=False)   # loading the saved agent (keras model)
-
+agent = load_model(model_path, compile=False)  # loading the saved agent (keras model)
 
 # General Anomaly detector parameters
 clf_general_update_interval = 4
-
 
 # Initializing some parameters
 state = np.zeros((state_update_interval, 6))
@@ -281,7 +276,6 @@ if start_negative:
     predicted_label = 1
 else:
     predicted_label = 2
-
 
 stream = DataStream(df)
 buffer = StreamBufferOriginal(size, stream.n_features, slide)
@@ -350,21 +344,18 @@ while stream.has_more_samples():
         buffer_c1_c2.add_instance(X)
         i = i + 1
 
-print("Number of detected class label transitions: " + str(buffer.transition_count))
-
 # Model metrics
-model_accuracy = round(accuracy_score(stream.y, model_output)*100, 2)
+model_accuracy = round(accuracy_score(stream.y, model_output) * 100, 2)
 tn, fp, fn, tp = confusion_matrix(stream.y, model_output).ravel()
-model_sensitivity = round(tp / (fn + tp)*100, 2)
-model_specificity = round(tn / (fp + tn)*100, 2)
-model_f1score = round(f1_score(stream.y, model_output, average=f1_average)*100, 2)
-model_auc = round(roc_auc_score(stream.y, model_output)*100, 2)
+model_sensitivity = round(tp / (fn + tp) * 100, 2)
+model_specificity = round(tn / (fp + tn) * 100, 2)
+model_f1score = round(f1_score(stream.y, model_output, average=f1_average) * 100, 2)
+model_auc = round(roc_auc_score(stream.y, model_output) * 100, 2)
 print("Model prediction accuracy: " + str(model_accuracy) + "%")
 print("Model prediction sensitivity: " + str(model_sensitivity) + "%")
 print("Model prediction specificity: " + str(model_specificity) + "%")
 print("Model prediction F1 score: " + str(model_f1score) + "%")
 print("Model prediction AUC: " + str(model_auc) + "%")
-
 
 # Plot code
 if display_plots:
