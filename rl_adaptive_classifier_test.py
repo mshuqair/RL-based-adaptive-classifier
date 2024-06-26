@@ -216,7 +216,7 @@ def change_model_label(label):
 
 
 def load_data():
-    data = pd.read_csv('data/mhealth_subject5.csv')
+    data = pd.read_csv('data/mhealth_subject1.csv')
     transitions = find_true_transition(data)
     return data, transitions
 
