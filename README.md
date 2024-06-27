@@ -21,8 +21,8 @@ More updates regarding the description are coming soon. I will also update the c
 ## Code Requirements and Compatability
 The code was run and tested using the following:
 - Python			3.8.10
-- tensorflow		2.10.1
-- keras				2.10.0
+- tensorflow		2.8.4
+- keras				2.8.0
 - h5py				3.10.0
 - matplotlib		3.6.3
 - numpy				1.20.3
