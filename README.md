@@ -4,20 +4,17 @@ Training an RL agent to recognize these transitions makes it adept at identifyin
 Instead of static models, our agent interacts with the data's dynamics and makes optimal classification decisions.
 This RL-driven framework prioritizes understanding changes in data distribution, making it robust against inter and intra-data variations.
 
-
-## Updates
-More updates regarding the description are coming soon. I will also update the code to make it more generalizable.
-
-
-## Deep Reinforcement Learning Adaptive Classification of PD Medication State
 ![](figures/figure_rl_structure.png)
 **Figure 1.** The proposed reinforcement learning-based adaptive classification framework.
 
 ![](output/model_output.png)
 **Figure 2.** The model prediction for Walking vs. Non-walking (1 vs. 2) in one particiapnt of the MHEALTH dataset.
 
+## Updates
+More updates regarding the description are coming soon. I will also update the code to make it more generalizable.
 
 
+## Deep Reinforcement Learning Adaptive Classification of PD Medication State
 - Preliminary results of this project were published at the IEEE ICDM 2022 Conference.
 - Incremental Learning in Time-series Data using Reinforcement Learning: https://doi.org/10.1109/ICDMW58026.2022.00115
 - An extensive extension of this work has been recently accepted at the IEEE Journal of Biomedical and Health Informatics.
