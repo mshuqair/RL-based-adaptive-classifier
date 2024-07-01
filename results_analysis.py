@@ -1,5 +1,4 @@
 import pickle
-
 import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, roc_auc_score
@@ -8,6 +7,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, roc_auc_
 # Main code
 f1_average = 'weighted'
 figure_size = (6, 3.5)
+save_figure = True
 
 # Load the data
 with open('output/model_output.pkl', 'rb') as file:
@@ -39,6 +39,8 @@ plt.xlabel(xlabel="Minutes")
 plt.yticks(np.array([1, 2]), labels=["Non-walking", "Walking"])
 plt.plot(d, y_true, c='g')
 plt.tight_layout()
+if save_figure:
+    plt.savefig('output/ground_truth.png')
 plt.show()
 
 plt.figure(figsize=figure_size)
@@ -50,6 +52,8 @@ plt.plot(d, y_true, c='g')
 plt.scatter(np.array(class_transitions_index[:]) / 60, class_transitions[:], c='r', marker='o')
 plt.legend(("Class label", "Predicted transitions"), loc='center right')
 plt.tight_layout()
+if save_figure:
+    plt.savefig('output/predicted_class_transition.png')
 plt.show()
 
 plt.figure(figsize=figure_size)
@@ -59,6 +63,8 @@ plt.xlabel("Minutes")
 plt.yticks(np.array([1, 2]), labels=["Non-walking", "Walking"])
 plt.plot(d, y_predicted)
 plt.tight_layout()
+if save_figure:
+    plt.savefig('output/predicted_output.png')
 plt.show()
 
 plt.figure(figsize=figure_size)
@@ -75,4 +81,6 @@ plt.scatter(np.array(outliers_percent_index[:]) / 60, outliers_percent_general, 
 plt.scatter(np.array(outliers_percent_index[:]) / 60, outliers_percent_c1, marker='o')
 plt.scatter(np.array(outliers_percent_index[:]) / 60, outliers_percent_c2, marker='o')
 plt.tight_layout()
+if save_figure:
+    plt.savefig('output/anomaly_scores.png')
 plt.show()

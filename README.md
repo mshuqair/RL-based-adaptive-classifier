@@ -13,6 +13,11 @@ More updates regarding the description are coming soon. I will also update the c
 ![](figures/figure_rl_structure.png)
 **Figure 1.** The proposed reinforcement learning-based adaptive classification framework.
 
+![](output/ground_truth.png)	![](output/predicted_class_transition.png)	![](output/predicted_output.png) ![](output/anomaly_scores.png)
+**Figure 2.** The model prediction for Walking vs. Non-walking in one particiapnt of the MHEALTH dataset.
+
+
+
 - Preliminary results of this project were published at the IEEE ICDM 2022 Conference.
 - Incremental Learning in Time-series Data using Reinforcement Learning: https://doi.org/10.1109/ICDMW58026.2022.00115
 - An extensive extension of this work has been recently accepted at the IEEE Journal of Biomedical and Health Informatics.
