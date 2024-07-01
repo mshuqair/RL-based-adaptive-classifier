@@ -13,8 +13,8 @@ More updates regarding the description are coming soon. I will also update the c
 ![](figures/figure_rl_structure.png)
 **Figure 1.** The proposed reinforcement learning-based adaptive classification framework.
 
-![](output/ground_truth.png)	![](output/predicted_class_transition.png)	![](output/predicted_output.png) ![](output/anomaly_scores.png)
-**Figure 2.** The model prediction for Walking vs. Non-walking in one particiapnt of the MHEALTH dataset.
+![](output/model_output.png)
+**Figure 2.** The model prediction for Walking vs. Non-walking (1 vs. 2) in one particiapnt of the MHEALTH dataset.
 
 
 

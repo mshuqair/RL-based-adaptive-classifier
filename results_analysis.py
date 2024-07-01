@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, roc_auc_
 # Main code
 f1_average = 'weighted'
 figure_size = (6, 3.5)
-save_figure = True
+save_figure = False
 
 # Load the data
 with open('output/model_output.pkl', 'rb') as file:
