@@ -184,10 +184,10 @@ class StreamBufferGeneral:
 def build_agent():
     print("Building the agent...\n")
     model = Sequential()
-    model.add(LSTM(32, input_shape=(state_update_interval, 6)))
-    model.add(Dense(64, activation='relu'))
-    model.add(Dense(64, activation='relu'))
-    model.add(Dense(2, activation='linear'))
+    model.add(LSTM(units=32, input_shape=(state_update_interval, 6)))
+    model.add(Dense(units=64, activation='relu'))
+    model.add(Dense(units=64, activation='relu'))
+    model.add(Dense(units=2, activation='linear'))
     model.compile(loss='mse', optimizer='adam')
     model.summary()
     return model
@@ -276,7 +276,6 @@ file_name = 'mhealth_s5'  # name used for saving model, plots, reward, etc...
 save_model = True  # to save the trained mode
 save_train_time = False  # to save training time
 save_reward = False  # to save the cumulative reward
-plot_reward = True  # to plot the cumulative reward
 start_negative = True  # when the starting class is 1
 
 # Data window parameters

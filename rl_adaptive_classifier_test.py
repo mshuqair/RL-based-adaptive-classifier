@@ -237,10 +237,6 @@ df, true_transitions = load_data()
 model_path = 'trained_models/model_trained_mhealth_s5.h5'
 file_name = 'mhealth_s5'
 start_negative = True  # when the starting class is 1
-display_plots = True  # to display resulting plots
-save_plots = False  # to save the plots
-font_size = 'xx-large'  # control the font size in the plots
-f1_average = 'weighted'  # control the calculation of the f1 average
 
 # Data window parameters
 size = 40  # sliding window size (X_w)
