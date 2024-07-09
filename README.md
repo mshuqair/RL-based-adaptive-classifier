@@ -15,9 +15,10 @@ More updates regarding the description are coming soon. I will also update the c
 
 
 ## Deep Reinforcement Learning Adaptive Classification of PD Medication State
-The preliminary results of this project were published at the IEEE ICDM 2022 Conference.
+- The preliminary results of this project were published at the IEEE ICDM 2022 Conference.
 Incremental Learning in Time-series Data using Reinforcement Learning: https://doi.org/10.1109/ICDMW58026.2022.00115
-The IEEE Journal of Biomedical and Health Informatics has recently accepted an extensive extension of this work.
+- The IEEE Journal of Biomedical and Health Informatics has recently published an extensive extension of this work.
+Reinforcement Learning-Based Adaptive Classification for Medication State Monitoring in Parkinson's Disease: https://doi.org/10.1109/JBHI.2024.3423708
 
 
 ## Code Requirements and Compatability
