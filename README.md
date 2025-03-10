@@ -19,6 +19,7 @@ More updates regarding the description are coming soon. I will also update the c
 Incremental Learning in Time-series Data using Reinforcement Learning: https://doi.org/10.1109/ICDMW58026.2022.00115
 - The IEEE Journal of Biomedical and Health Informatics has recently published an extensive extension of this work.
 Reinforcement Learning-Based Adaptive Classification for Medication State Monitoring in Parkinson's Disease: https://doi.org/10.1109/JBHI.2024.3423708
+- Please cite the papers if you find this work useful
 
 
 ## Code Requirements and Compatability
