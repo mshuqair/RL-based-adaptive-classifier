@@ -11,7 +11,7 @@ from sklearn.metrics import (
 # Configuration
 f1_average = "weighted"
 figure_size = (8, 5)
-save_figure = True
+save_figure = False
 
 # Load the model output
 with open("output/model_output.pkl", "rb") as file:

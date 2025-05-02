@@ -1,9 +1,26 @@
-from skmultiflow.data.data_stream import DataStream
 from keras.models import load_model
 from sklearn.svm import OneClassSVM
 import pandas as pd
 import numpy as np
 import pickle
+
+
+class DataStream:
+    def __init__(self, data):
+        data = data.values
+        self.X = data[:, :-1]
+        self.y = data[:, -1].astype(int)
+        self.index = 0
+        self.n_features = self.X.shape[1]
+
+    def has_more_samples(self):
+        return self.index < len(self.X)
+
+    def next_sample(self):
+        sample = self.X[self.index, :]
+        label = self.y[self.index]
+        self.index += 1
+        return sample, label
 
 
 # Classes for each anomaly detector
@@ -88,9 +105,9 @@ class StreamBufferC1C2:
     def add_instance(self, data):
         self.win_data[self.window_index] = data
         if self.clf_selector == 0:
-            self.training_data_off = np.append(self.training_data_off, data, axis=0)
+            self.training_data_off = np.append(self.training_data_off, [data], axis=0)
         if self.clf_selector == 1:
-            self.training_data_on = np.append(self.training_data_on, data, axis=0)
+            self.training_data_on = np.append(self.training_data_on, [data], axis=0)
         self.window_index = self.window_index + 1
 
     def roll_window(self):
@@ -155,7 +172,7 @@ class StreamBufferGeneral:
 
     def add_instance(self, data):
         self.win_data[self.window_index] = data
-        self.training_data = np.append(self.training_data, data, axis=0)
+        self.training_data = np.append(self.training_data, [data], axis=0)
         self.window_index = self.window_index + 1
 
     def roll_window(self):
@@ -216,7 +233,7 @@ def change_model_label(label):
 
 
 def load_data():
-    data = pd.read_csv('data/mhealth_subject1.csv')
+    data = pd.read_csv('data/mhealth_s1.csv')
     transitions = find_true_transition(data)
     return data, transitions
 
@@ -267,6 +284,7 @@ outliers_percent_c2 = np.array([])
 outliers_percent_index = np.array([])
 outliers_transitions = np.array([])
 outliers_transitions_index = np.array([])
+
 if start_negative:
     predicted_label = 1
 else:
@@ -338,7 +356,6 @@ while stream.has_more_samples():
         buffer_general.add_instance(X)
         buffer_c1_c2.add_instance(X)
         i = i + 1
-
 
 # Save model output
 y_true = stream.y

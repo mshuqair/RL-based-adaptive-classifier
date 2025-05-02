@@ -1,4 +1,3 @@
-from skmultiflow.data.data_stream import DataStream
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
 from sklearn.svm import OneClassSVM
@@ -6,6 +5,24 @@ import pandas as pd
 import numpy as np
 import random
 import time
+
+
+class DataStream:
+    def __init__(self, data):
+        data = data.values
+        self.X = data[:, :-1]
+        self.y = data[:, -1].astype(int)
+        self.index = 0
+        self.n_features = self.X.shape[1]
+
+    def has_more_samples(self):
+        return self.index < len(self.X)
+
+    def next_sample(self):
+        sample = self.X[self.index, :]
+        label = self.y[self.index]
+        self.index += 1
+        return sample, label
 
 
 # Classes for each anomaly detector
@@ -90,9 +107,9 @@ class StreamBufferC1C2:
     def add_instance(self, data):
         self.win_data[self.window_index] = data
         if self.clf_selector == 0:
-            self.training_data_off = np.append(self.training_data_off, data, axis=0)
+            self.training_data_off = np.append(self.training_data_off, [data], axis=0)
         if self.clf_selector == 1:
-            self.training_data_on = np.append(self.training_data_on, data, axis=0)
+            self.training_data_on = np.append(self.training_data_on, [data], axis=0)
         self.window_index = self.window_index + 1
 
     def roll_window(self):
@@ -157,7 +174,7 @@ class StreamBufferGeneral:
 
     def add_instance(self, data):
         self.win_data[self.window_index] = data
-        self.training_data = np.append(self.training_data, data, axis=0)
+        self.training_data = np.append(self.training_data, [data], axis=0)
         self.window_index = self.window_index + 1
 
     def roll_window(self):
@@ -252,7 +269,7 @@ def get_reward(transition_detected, transition_position, current_position):
 
 
 def load_data():
-    data = pd.read_csv('data/mhealth_subject5.csv')
+    data = pd.read_csv('data/mhealth_s5.csv')
     transitions = find_true_transition(data)
     return data, transitions
 
