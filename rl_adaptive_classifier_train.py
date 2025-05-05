@@ -269,7 +269,7 @@ def get_reward(transition_detected, transition_position, current_position):
 
 
 def load_data():
-    data = pd.read_csv('data/mhealth_s5.csv')
+    data = pd.read_csv('data/mhealth_p5.csv')
     transitions = find_true_transition(data)
     return data, transitions
 
@@ -411,7 +411,7 @@ for episode in range(episodes):
 
 if save_model:
     print("Saving the trained model...")
-    agent.save('trained_models/model_trained_' + str(file_name) + '.h5')
+    agent.save('models/model_trained_' + str(file_name) + '.h5')
 
 if save_reward:
     df_cumulative_reward = pd.DataFrame({'episode': episode_number, 'epsilon': epsilon_value,

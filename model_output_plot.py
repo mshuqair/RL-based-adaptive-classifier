@@ -9,12 +9,13 @@ from sklearn.metrics import (
 )
 
 # Configuration
+file_name = "mhealth_p1"
 f1_average = "weighted"
 figure_size = (6, 3.5)
 save_figure = False
 
 # Load the model output
-with open("output/model_output.pkl", "rb") as file:
+with open(f"output/{file_name}_model_output.pkl", "rb") as file:
     (
         y_true,
         y_predicted,
@@ -51,7 +52,7 @@ plt.yticks([1, 2], labels=["Non-walking", "Walking"])
 plt.plot(d, y_true, c="g")
 plt.tight_layout()
 if save_figure:
-    plt.savefig("output/ground_truth.png")
+    plt.savefig(f"output/{file_name}_ground_truth_.png")
 plt.show()
 
 # Plot: Predicted Class Transitions
@@ -69,7 +70,7 @@ plt.scatter(
 plt.legend(("Class label", "Predicted transitions"), loc="center right")
 plt.tight_layout()
 if save_figure:
-    plt.savefig("output/predicted_class_transition.png")
+    plt.savefig(f"output/{file_name}_predicted_class_transition.png")
 plt.show()
 
 # Plot: Predicted Output
@@ -80,7 +81,7 @@ plt.yticks([1, 2], labels=["Non-walking", "Walking"])
 plt.plot(d, y_predicted)
 plt.tight_layout()
 if save_figure:
-    plt.savefig("output/predicted_output.png")
+    plt.savefig(f"output/{file_name}_predicted_output.png")
 plt.show()
 
 # Plot: Anomaly Scores
@@ -130,5 +131,5 @@ plt.scatter(
 
 plt.tight_layout()
 if save_figure:
-    plt.savefig("output/anomaly_scores.png")
+    plt.savefig(f"output/{file_name}_anomaly_scores.png")
 plt.show()

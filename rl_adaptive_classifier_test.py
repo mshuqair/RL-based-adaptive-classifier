@@ -233,7 +233,7 @@ def change_model_label(label):
 
 
 def load_data():
-    data = pd.read_csv('data/mhealth_s1.csv')
+    data = pd.read_csv('data/mhealth_p1.csv')
     transitions = find_true_transition(data)
     return data, transitions
 
@@ -251,7 +251,7 @@ def find_true_transition(data):
 df, true_transitions = load_data()
 
 # General parameters
-model_path = 'trained_models/model_trained_mhealth_s5.h5'
+model_path = 'models/model_trained_mhealth_p5.h5'
 file_name = 'mhealth_s5'
 start_negative = True  # when the starting class is 1
 

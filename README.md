@@ -7,11 +7,16 @@ This RL-driven framework prioritizes understanding changes in data distribution,
 ![](figures/figure_rl_structure.png)
 **Figure 1.** The proposed reinforcement-learning-based adaptive classification framework.
 
-![](output/model_output.png)
+![](output/mhealth_p1_model_output.png)
 **Figure 2.** The model prediction for Walking vs. Non-walking (1 vs. 2) in one participant of the MHEALTH dataset.
 
 ## Updates
-More updates regarding the description are coming soon. I will also update the code to make it more generalizable.
+More updates regarding the description are coming soon.
+Code updates:
+ - Update the model train and test to improve readability and reproducibility
+ - Updated to Python 3.10.11
+ - Updated to TensorFlow 2.10.0
+ - Various updates to plotting functions
 
 
 ## Deep Reinforcement Learning Adaptive Classification of PD Medication State

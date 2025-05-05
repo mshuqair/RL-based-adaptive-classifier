@@ -9,12 +9,13 @@ from sklearn.metrics import (
 )
 
 # Configuration
+file_name = "mhealth_p1"
 f1_average = "weighted"
 figure_size = (8, 5)
-save_figure = False
+save_figure = True
 
 # Load the model output
-with open("output/model_output.pkl", "rb") as file:
+with open(f"output/{file_name}_model_output.pkl", "rb") as file:
     (
         y_true,
         y_predicted,
@@ -102,5 +103,5 @@ ax[1, 1].legend(loc="best", fontsize="small")
 
 # Save and show the figure
 if save_figure:
-    plt.savefig("output/model_output.png")
+    plt.savefig(f"output/{file_name}_model_output.png")
 plt.show()
