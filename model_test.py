@@ -230,24 +230,19 @@ def main():
     """Main execution function."""
     config = ModelConfig()
 
-    try:
-        # Load data
-        data = pd.read_csv(Path('data') / f'{config.file_name}.csv')
+    # Load data
+    data = pd.read_csv(Path('data') / f'{config.file_name}.csv')
 
-        # Initialize and run classifier
-        classifier = AdaptiveClassifier(config)
-        model_output = classifier.process_stream(data)
+    # Initialize and run classifier
+    classifier = AdaptiveClassifier(config)
+    model_output = classifier.process_stream(data)
 
-        # Save results
-        output_path = Path('output') / f'{config.file_name}_model_output.pkl'
-        with open(output_path, 'wb') as file:
-            pickle.dump(model_output, file)
+    # Save results
+    output_path = Path('output') / f'{config.file_name}_model_output.pkl'
+    with open(output_path, 'wb') as file:
+        pickle.dump(model_output, file)
 
-        print("Processing completed successfully")
-
-    except Exception as e:
-        print(f"Error during execution: {e}")
-        raise
+    print("Processing completed successfully")
 
 
 if __name__ == "__main__":
